@@ -23,10 +23,10 @@ public class AlumnoController {
 		return "alumnos";
 	}
 	
-	@PostMapping("/alumno/new")
+	@GetMapping("/alumno/new")
 	public String registrarAlumno(Model modelo) {
 		Alumno alumno = new Alumno();
-		modelo.addAttribute("alumn", alumno);
+		modelo.addAttribute("alumno", alumno);
 		return "crear_alumno";
 	}
 	
@@ -36,14 +36,24 @@ public class AlumnoController {
 		return "redirect:/alumnos";
 	}
 	
-	@GetMapping("/alumno/show/{id}")
-	public String mostrarAlumno(Model modelo, @PathVariable Long id) {
-		modelo.addAttribute("estudiante", alumnoService.visualizarPorId(id));
-		return "visualizar_alumno";
+	@GetMapping("/alumno/edit/{id}")
+	public String formularioEditarAlumno(Model modelo, @PathVariable Long id) {
+		Alumno alumno = alumnoService.visualizarPorId(id);
+        modelo.addAttribute("alumno", alumno);
+        return "editar_alumno";
 	}
 	
+	@PostMapping("/alumno/new")
+	public String guardarAlumno(@ModelAttribute("alumno")Alumno alumno) {
+		alumnoService.registro(alumno);
+		return "redirect:/alumnos";
+	}
+	
+	
+	//MODIFICAR???
+	//@GetMapping("/alumno/edit/{id}")
 	@PostMapping("/alumno/edit/{id}")
-	public String modificarAlumno(@PathVariable Long id, @ModelAttribute("alumn") Alumno alumno) {
+	public String modificarAlumno(@PathVariable Long id, @ModelAttribute("alumno") Alumno alumno) {
 		Alumno alumnoModif = alumnoService.visualizarPorId(id);
 		
 		alumnoModif.setNombre(alumno.getNombre());
@@ -53,7 +63,7 @@ public class AlumnoController {
 		alumnoModif.setDni(alumno.getDni());
 		alumnoModif.setFecha_nacimiento(alumno.getFecha_nacimiento());
 		
-		alumnoService.registro(alumno);
+		alumnoService.registro(alumnoModif);
 		return "redirect:/alumnos";
 	}
 }

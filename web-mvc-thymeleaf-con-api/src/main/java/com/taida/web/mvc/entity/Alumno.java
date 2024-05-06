@@ -3,12 +3,16 @@ package com.taida.web.mvc.entity;
 import java.io.Serializable;
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 
 @Entity
 @Table(name="alumno")
@@ -33,6 +37,8 @@ public class Alumno implements Serializable{
 	private String dni;
 	
 	@Column(nullable=false, length=150)
+	@Temporal(TemporalType.DATE)
+	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	private Date fecha_nacimiento;
 	
 	public Long getId() {
