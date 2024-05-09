@@ -10,12 +10,23 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import com.taida.web.mvc.entity.Alumno;
 import com.taida.web.mvc.service.AlumnoService;
+import com.taida.web.mvc.service.ProyectoService;
 
 @Controller
 public class AlumnoController {
 	
 	@Autowired 
 	private AlumnoService alumnoService;
+	
+	@Autowired
+	private ProyectoService proyectoService;
+	
+	
+	@GetMapping({"/proyectos"})
+	public String listaProy(Model modelo) {
+		modelo.addAttribute("proy", proyectoService.mostrarTodos());
+		return "proyectos";
+	}
 	
 	@GetMapping({"/alumnos","/"})
 	public String listarAlumnos(Model modelo) {
@@ -31,13 +42,13 @@ public class AlumnoController {
 	}
 	
 	@GetMapping("/alumno/delete/{id}")
-	public String eliminarAlumno(@PathVariable Long id) {
+	public String eliminarAlumno(@PathVariable(name="id") Long id) {
 		alumnoService.elimino(id);
 		return "redirect:/alumnos";
 	}
 	
 	@GetMapping("/alumno/edit/{id}")
-	public String formularioEditarAlumno(Model modelo, @PathVariable Long id) {
+	public String formularioEditarAlumno(Model modelo, @PathVariable(name="id") Long id) {
 		Alumno alumno = alumnoService.visualizarPorId(id);
         modelo.addAttribute("alumno", alumno);
         return "editar_alumno";
@@ -48,12 +59,9 @@ public class AlumnoController {
 		alumnoService.registro(alumno);
 		return "redirect:/alumnos";
 	}
-	
-	
-	//MODIFICAR???
-	//@GetMapping("/alumno/edit/{id}")
+
 	@PostMapping("/alumno/edit/{id}")
-	public String modificarAlumno(@PathVariable Long id, @ModelAttribute("alumno") Alumno alumno) {
+	public String modificarAlumno(@PathVariable(name="id") Long id, @ModelAttribute("alumno") Alumno alumno) {
 		Alumno alumnoModif = alumnoService.visualizarPorId(id);
 		
 		alumnoModif.setNombre(alumno.getNombre());

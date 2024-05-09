@@ -22,5 +22,4 @@ public class ApiRestWeb1Application {
             }
         };
     }
-
 }

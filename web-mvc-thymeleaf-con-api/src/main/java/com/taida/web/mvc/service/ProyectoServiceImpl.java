@@ -49,7 +49,4 @@ public class ProyectoServiceImpl implements ProyectoService{
 		}
 		return sol;
 	}
-
-	
-
 }

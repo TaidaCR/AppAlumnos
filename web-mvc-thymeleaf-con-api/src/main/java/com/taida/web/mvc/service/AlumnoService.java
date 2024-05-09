@@ -5,7 +5,7 @@ import java.util.List;
 import com.taida.web.mvc.entity.Alumno;
 
 public interface AlumnoService {
-	//LA VOY A USAR??
+	
 	public List<Alumno> listadoAlumnos();
 	
 	public Alumno registro(Alumno alumno);

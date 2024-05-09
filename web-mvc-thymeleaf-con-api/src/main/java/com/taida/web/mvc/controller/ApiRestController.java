@@ -2,7 +2,10 @@ package com.taida.web.mvc.controller;
 
 import java.util.List;
 
+//import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,9 +27,15 @@ public class ApiRestController {
 	@Autowired
 	private ProyectoService service;
 	
-	@GetMapping("/proyectos")
+	@GetMapping("/listaProyectos")
 	public List<Proyecto> listadoProyectos(){
 		return service.mostrarTodos();
+	}
+	
+	@GetMapping({"/proyectos"})
+	public String listaProy(Model modelo) {
+		modelo.addAttribute("proy", service.mostrarTodos());
+		return "proyectos";
 	}
 	
 	@GetMapping("/proyectos/{id}")
@@ -34,7 +43,7 @@ public class ApiRestController {
 		return service.buscarPorId(id);
 	}
 	
-	@PostMapping("/proyectos")
+	@PostMapping("/proyect")
 	public Proyecto crearNuevo(Proyecto proyecto) {
 		return service.add(proyecto);
 	}
@@ -43,7 +52,7 @@ public class ApiRestController {
 	public Proyecto modificar(@PathVariable Long id, @RequestBody Proyecto proyecto) {
 		Proyecto proyectoAModificar = service.buscarPorId(id);
 		proyectoAModificar.setNombre(proyecto.getNombre());
-		proyectoAModificar.setDescripción(proyecto.getDescripción());
+		proyectoAModificar.setDescripcion(proyecto.getDescripcion());
 		proyectoAModificar.setFecha_inicio(proyecto.getFecha_inicio());
 		proyectoAModificar.setFecha_fin(proyecto.getFecha_fin());
 		proyectoAModificar.setActivo(proyecto.getActivo());

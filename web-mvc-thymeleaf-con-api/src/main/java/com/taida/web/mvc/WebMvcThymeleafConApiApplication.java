@@ -9,5 +9,4 @@ public class WebMvcThymeleafConApiApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(WebMvcThymeleafConApiApplication.class, args);
 	}
-
 }
